@@ -73,6 +73,6 @@ Experiment tracking, loss curves, and hyperparameter logs were recorded using **
 ### 1. Installation
 Clone the repository and install dependencies:
 ```bash
-git clone [TODO)
+git clone [https://github.com/FloraGashi/commonsense-qa-nlp.git](https://github.com/FloraGashi/commonsense-qa-nlp.git)
 cd commonsense-qa-nlp
 pip install -r requirements.txt
