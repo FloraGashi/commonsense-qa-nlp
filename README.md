@@ -13,7 +13,7 @@ An individual Machine Learning project evaluating commonsense reasoning on the *
 
 ## Project Overview
 - **Task:** 5-choice multiple-choice classification.
-- **Baseline:** Random guessing yields **20.0% accuracy**[cite: 2].
+- **Baseline:** Random guessing yields **20.0% accuracy**.
 - **Dataset:** Hugging Face `commonsense_qa`.
 
 ---
@@ -21,34 +21,34 @@ An individual Machine Learning project evaluating commonsense reasoning on the *
 ## Pipeline & Architecture Details
 
 ### 1. Preprocessing & FastText Embeddings
-- **Embeddings:** Pretrained **FastText (300d)** vectors; fallback zero-vector for unknown/empty sequences[cite: 2].
-- **Tokenization:** Lowercasing, whitespace tokenization, preserving apostrophes for contractions[cite: 2].
-- **Logic Preservation:** **No stopword removal** (crucial to keep logical connectors intact)[cite: 2].
+- **Embeddings:** Pretrained **FastText (300d)** vectors; fallback zero-vector for unknown/empty sequences.
+- **Tokenization:** Lowercasing, whitespace tokenization, preserving apostrophes for contractions.
+- **Logic Preservation:** **No stopword removal** (crucial to keep logical connectors intact).
 
 ### 2. Model Architectures
 - **MLP (Classifier):**
-  - Input: Mean-pooled question ($300d$) concatenated with mean-pooled option ($300d$) $\rightarrow$ $600d$ vector per option[cite: 2].
-  - Model: One hidden layer with ReLU and Dropout, processing each of the 5 choices independently to return 1 logit per answer[cite: 2].
+  - Input: Mean-pooled question ($300d$) concatenated with mean-pooled option ($300d$) $\rightarrow$ $600d$ vector per option.
+  - Model: One hidden layer with ReLU and Dropout, processing each of the 5 choices independently to return 1 logit per answer.
 - **RNN (GRU Classifier):**
-  - Input: Concatenated Question + Answer token sequences (e.g., *"Where do we find magazines? bookstore"*) padded to batch max-length[cite: 2].
-  - Model: **2-layer GRU** taking the final hidden state to output 1 logit per answer choice[cite: 2].
+  - Input: Concatenated Question + Answer token sequences (e.g., *"Where do we find magazines? bookstore"*) padded to batch max-length.
+  - Model: **2-layer GRU** taking the final hidden state to output 1 logit per answer choice.
 
 ---
 
 ## Experiments & Hyperparameter Tuning
 
-Grid search performed over **12 runs per model architecture** with the following setup[cite: 2]:
-- **Learning Rates:** `1e-3`, `1e-4`, `1e-5`[cite: 2]
-- **Dropout:** `0.1`, `0.3`[cite: 2]
-- **Hidden Dimensions:** `128`, `256`[cite: 2]
-- **Optimizer & Loss:** Adam Optimizer & CrossEntropyLoss (Batch Size: 128)[cite: 2]
-- **Training:** Up to 40 epochs with Early Stopping (patience = 12 based on validation accuracy)[cite: 2].
+Grid search performed over **12 runs per model architecture** with the following setup:
+- **Learning Rates:** `1e-3`, `1e-4`, `1e-5`
+- **Dropout:** `0.1`, `0.3`
+- **Hidden Dimensions:** `128`, `256`
+- **Optimizer & Loss:** Adam Optimizer & CrossEntropyLoss (Batch Size: 128)
+- **Training:** Up to 40 epochs with Early Stopping (patience = 12 based on validation accuracy).
 
 ---
 
 ## Results & Tracking
 
-Experiment tracking, loss curves, and hyperparameter logs were recorded using **Weights & Biases**[cite: 2].
+Experiment tracking, loss curves, and hyperparameter logs were recorded using **Weights & Biases**.
 
 | Model | Random Baseline | Validation Accuracy | Test Accuracy |
 |-------|-----------------|---------------------|---------------|
@@ -56,18 +56,15 @@ Experiment tracking, loss curves, and hyperparameter logs were recorded using **
 | **MLP (Classifier)** | 20.0% | **25.6%** | **26.9%** |
 | **GRU (2-Layer RNN)** | 20.0% | 25.2% | 23.7% |
 
-**Weights & Biases Dashboard:** [View W&B Runs & Experiments](https://wandb.ai/flora-gashi-hochschule-luzern/commonsense_project_1)[cite: 2]  
-**Presentation:** [Download Presentation PDF](./presentation_commonsense_qa.pdf)
-
 ---
 
 ## Key Findings & Error Analysis
 
-- **Performance:** The mean-pooled MLP slightly outperformed the sequential 2-layer GRU on the test set ($26.9\%$ vs. $23.7\%$)[cite: 2].
-- **Distractor Confusion:** Error analysis on misclassified examples showed models often get confused between semantically similar options (e.g., *"make peace"* vs. *"make noise"*)[cite: 2].
+- **Performance:** The mean-pooled MLP slightly outperformed the sequential 2-layer GRU on the test set ($26.9\%$ vs. $23.7\%$).
+- **Distractor Confusion:** Error analysis on misclassified examples showed models often get confused between semantically similar options (e.g., *"make peace"* vs. *"make noise"*).
 - **Question Prefix Performance:**
-  - Questions starting with **"WHERE"** achieved the highest accuracy[cite: 2].
-  - Questions starting with **"WHEN"** were the most challenging and yielded the lowest accuracy[cite: 2].
+  - Questions starting with **"WHERE"** achieved the highest accuracy.
+  - Questions starting with **"WHEN"** were the most challenging and yielded the lowest accuracy.
 
 ---
 
